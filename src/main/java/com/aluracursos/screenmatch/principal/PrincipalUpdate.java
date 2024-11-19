@@ -23,15 +23,9 @@ public class PrincipalUpdate {
         var opcion = -1;
         while (opcion != 0) {
             var menu = """
-<<<<<<< HEAD
                     1 - Buscar series.
                     2 - Buscar episodios.
                     3 - Mostrar series buscadas.
-=======
-                    1 - Buscar series
-                    2 - Buscar episodios
-                    3 - Mostrar series buscadas
->>>>>>> acbd47a (Start Postgress)
                     0 - Salir
                     """;
             System.out.println(menu);

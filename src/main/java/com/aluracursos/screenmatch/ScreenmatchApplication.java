@@ -5,7 +5,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.aluracursos.screenmatch.principal.EjemploStream;
-import com.aluracursos.screenmatch.principal.Principal;
 import com.aluracursos.screenmatch.principal.PrincipalUpdate;
 
 @SpringBootApplication

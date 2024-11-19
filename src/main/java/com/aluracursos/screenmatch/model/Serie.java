@@ -2,12 +2,28 @@ package com.aluracursos.screenmatch.model;
 
 import java.util.OptionalDouble;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 // import com.aluracursos.screenmatch.service.ConsultaChatGtp;
 
+@Entity
+@Table(name = "series")
 public class Serie {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
+    @Column(unique = true)
     private String titulo;
     private int totaldeTemporadas;
     private Double evaluacion;
+    @Enumerated(EnumType.STRING)
     private Categoria genero;
     private String actores;
     private String poster;
@@ -22,6 +38,14 @@ public class Serie {
         this.poster = dataSerie.poster();
         // this.sinopsis = ConsultaChatGtp.obtenerTraduccion(dataSerie.sinopsis());
         this.sinopsis = dataSerie.sinopsis();
+    }
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
     }
 
     public String getTitulo() {
@@ -85,4 +109,5 @@ public class Serie {
         return "Titulo= " + titulo + ", Total de Temporadas= " + totaldeTemporadas + ", Evaluación= " + evaluacion
                 + ", Genero= " + genero + ", Actores= " + actores + ", Poster= " + poster + ", Sinopsis= " + sinopsis;
     }
+
 }
