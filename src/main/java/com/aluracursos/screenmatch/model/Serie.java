@@ -1,5 +1,6 @@
 package com.aluracursos.screenmatch.model;
 
+import java.util.List;
 import java.util.OptionalDouble;
 
 import jakarta.persistence.Column;
@@ -10,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 // import com.aluracursos.screenmatch.service.ConsultaChatGtp;
 
@@ -28,6 +30,10 @@ public class Serie {
     private String actores;
     private String poster;
     private String sinopsis;
+    @Transient
+    private List<Episodio> episodios;
+
+    public Serie(){}
 
     public Serie(DataSerie dataSerie) {
         this.titulo = dataSerie.titulo();

@@ -1,14 +1,19 @@
 package com.aluracursos.screenmatch;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.aluracursos.screenmatch.principal.EjemploStream;
+import com.aluracursos.screenmatch.principal.PrincipalRepository;
 import com.aluracursos.screenmatch.principal.PrincipalUpdate;
+import com.aluracursos.screenmatch.repository.SerieRepository;
 
 @SpringBootApplication
 public class ScreenmatchApplication implements CommandLineRunner {
+	@Autowired// otorga permisos de actualizar el mapeo
+	private SerieRepository repository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ScreenmatchApplication.class, args);
@@ -23,7 +28,7 @@ public class ScreenmatchApplication implements CommandLineRunner {
 		// EjemploStream ejemploStream = new EjemploStream();
 		// ejemploStream.muestraEjemplo();
 
-		PrincipalUpdate principalUpdate = new PrincipalUpdate();
-		principalUpdate.muestraElMenu();
+		PrincipalRepository principalRepository = new PrincipalRepository(repository);
+		principalRepository.muestraElMenu();
 	}
 }

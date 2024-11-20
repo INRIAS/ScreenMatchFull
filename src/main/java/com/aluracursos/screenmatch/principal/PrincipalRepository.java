@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-public class PrincipalUpdate {
+public class PrincipalRepository {
     private Scanner teclado = new Scanner(System.in);
     private ConsumoApi consumoApi = new ConsumoApi();
     private final String URL_BASE = "https://www.omdbapi.com/?t=";
@@ -21,7 +21,7 @@ public class PrincipalUpdate {
     private List<DataSerie> dataSeries = new ArrayList<>();
     private SerieRepository repositorio;
 
-    public PrincipalUpdate(SerieRepository repository) {
+    public PrincipalRepository(SerieRepository repository) {
         this.repositorio= repository;
     }
 
@@ -90,10 +90,7 @@ public class PrincipalUpdate {
     }
 
     private void mostraSeriesBuscadas() {
-       List<Serie> series = new ArrayList<>();
-       series=dataSeries.stream()
-       .map(d->new Serie(d))
-       .collect(Collectors.toList());
+       List<Serie> series = repositorio.findAll();
 
        series.stream()
         .sorted(Comparator.comparing(Serie::getGenero))
