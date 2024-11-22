@@ -10,8 +10,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 // import com.aluracursos.screenmatch.service.ConsultaChatGtp;
 
@@ -30,10 +30,13 @@ public class Serie {
     private String actores;
     private String poster;
     private String sinopsis;
-    @Transient
+    @OneToMany(mappedBy = "serie")
     private List<Episodio> episodios;
 
-    public Serie(){}
+
+
+    public Serie() {
+    }
 
     public Serie(DataSerie dataSerie) {
         this.titulo = dataSerie.titulo();
@@ -108,6 +111,14 @@ public class Serie {
 
     public void setSinopsis(String sinopsis) {
         this.sinopsis = sinopsis;
+    }
+
+    public List<Episodio> getEpisodios() {
+        return episodios;
+    }
+
+    public void setEpisodios(List<Episodio> episodios) {
+        this.episodios = episodios;
     }
 
     @Override
