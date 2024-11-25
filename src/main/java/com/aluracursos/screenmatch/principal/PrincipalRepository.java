@@ -1,5 +1,6 @@
 package com.aluracursos.screenmatch.principal;
 
+import com.aluracursos.screenmatch.model.Categoria;
 import com.aluracursos.screenmatch.model.DataSerie;
 import com.aluracursos.screenmatch.model.DataTemporadas;
 import com.aluracursos.screenmatch.model.Episodio;
@@ -12,7 +13,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class PrincipalRepository {
@@ -33,9 +33,13 @@ public class PrincipalRepository {
         var opcion = -1;
         while (opcion != 0) {
             var menu = """
-                    1 - Buscar series.
-                    2 - Buscar episodios.
-                    3 - Mostrar series buscadas.
+                    1 - Buscar Series.
+                    2 - Buscar Episodios.
+                    3 - Mostrar Series Buscadas.
+                    4 - Buscar Serie por Titulo.
+                    5 - Top 5 de series.
+                    6 - Buscar Serie por Categoria.
+                    7 - Filtrar Series.
                     0 - Salir
                     """;
             System.out.println(menu);
@@ -52,7 +56,18 @@ public class PrincipalRepository {
                 case 3:
                     mostraSeriesBuscadas();
                     break;
-
+                case 4:
+                    buscarSeriePorTitulo();
+                    break;
+                case 5:
+                    buscarTop5Series();
+                    break;
+                case 6:
+                    buscarSeriePorCategoria();
+                    break;
+                case 7:
+                    filtrarSeriesPorTemporadaYEvaluacion();
+                    break;
                 case 0:
                     System.out.println("Cerrando la aplicación...");
                     break;
@@ -119,5 +134,52 @@ public class PrincipalRepository {
         series.stream()
                 .sorted(Comparator.comparing(Serie::getGenero))
                 .forEach(System.out::println);
+    }
+
+    private void buscarSeriePorTitulo() {
+        System.out.println("Buscar serie por titulo: ");
+        var nombreSerie = teclado.nextLine();
+
+        Optional<Serie> serieBuscada = repositorio.findByTituloContainsIgnoreCase(nombreSerie);
+
+        if (serieBuscada.isPresent()) {
+            System.out.println("Serie encontrada en sistema: " + serieBuscada.get());
+        } else {
+            System.out.println("Serie no se encuentra en sistema");
+
+        }
+    }
+
+    private void buscarTop5Series() {
+        List<Serie> topSeries = repositorio.findTop5ByOrderByEvaluacionDesc();
+        topSeries.forEach(s -> System.out.println("Serie: " + s.getTitulo() + " Evaluacion: " + s.getEvaluacion()));
+    }
+
+    private void buscarSeriePorCategoria() {
+        System.out.println("Categoria de series a buscar: ");
+        var genero = teclado.nextLine();
+
+        var categoria = Categoria.fromEspañol(genero);
+        List<Serie> seriesPorCategorias = repositorio.findByGenero(categoria);
+
+        System.out.println("Series encontradas por " + genero);
+        seriesPorCategorias.forEach(c -> System.out.println(
+        "Serie: " + c.getTitulo() + " / Evaliación: " + c.getEvaluacion() + " / Categoria: " + c.getGenero()));
+        // seriesPorCategorias.forEach(System.out::println);
+    }
+
+    public void filtrarSeriesPorTemporadaYEvaluacion(){
+        System.out.println("¿Filtrar séries con cuántas temporadas? ");
+        var totalTemporadas = teclado.nextInt();
+        teclado.nextLine();
+
+        System.out.println("¿Con evaluación apartir de cuál valor? ");
+        var evaluacion = teclado.nextDouble();
+        teclado.nextLine();
+
+        List<Serie> filtroSeries = repositorio.findByTotaldeTemporadasLessThanEqualAndEvaluacionGreaterThanEqual(totalTemporadas, evaluacion);
+        System.out.println("*** Series filtradas ***");
+        filtroSeries.forEach(s ->
+                System.out.println(s.getTitulo() + "  - evaluacion: " + s.getEvaluacion()));
     }
 }
